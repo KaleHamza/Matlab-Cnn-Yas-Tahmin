@@ -1,89 +1,84 @@
+# 🧒👵 Age Estimation with CNN (MATLAB)
 
-🧠 MATLAB ile CNN Tabanlı Yaş Tahmini (Age Estimation)
-Bu proje, insan yüzü görüntülerini analiz ederek kişinin yaşını tahmin eden bir Konveksiyonel Sinir Ağı (CNN) modelidir. Proje, MATLAB Deep Learning Toolbox kullanılarak geliştirilmiştir ve UTKFace veri seti üzerinde eğitilmiştir.
+Bu proje, insan yüzü görüntülerini analiz ederek kişinin yaşını tahmin eden derin öğrenme tabanlı bir **Konvolüsyonel Sinir Ağı (CNN)** uygulamasıdır. **MATLAB Deep Learning Toolbox** kullanılarak geliştirilmiştir.
 
-📋 İçindekiler
-Proje Hakkında
+Sınıflandırma (Classification) yerine **Regresyon (Regression)** modeli kullanılarak, yaş grupları değil, doğrudan **sayısal yaş değeri** tahmin edilmektedir.
 
-Özellikler
+---
 
-Veri Seti
+## 📋 İçindekiler
+- [Proje Özeti](#-proje-özeti)
+- [Kullanılan Veri Seti](#-kullanılan-veri-seti)
+- [Model Mimarisi](#-model-mimarisi)
+- [Gereksinimler](#-gereksinimler)
+- [Kurulum ve Kullanım](#-kurulum-ve-kullanım)
+- [Sonuçlar](#-sonuçlar)
 
-Model Mimarisi
+---
 
-Kurulum ve Kullanım
+## 🚀 Proje Özeti
+Bu çalışmada, ham piksel verilerinden yaş tahmini yapmak amacıyla özelleştirilmiş bir CNN mimarisi tasarlanmıştır.
 
-Sonuçlar
+* **Veri İşleme:** Büyük veri setlerini belleği yormadan işlemek için MATLAB'in `ImageDatastore` ve `ArrayDatastore` yapıları kullanılmıştır.
+* **Hız Optimizasyonu:** Eğitim süreci için veri seti içerisinden rastgele örnekleme yapılarak (6000 görüntü) dinamik bir alt küme oluşturulur.
+* **Ön İşleme (Preprocessing):** Görüntüler eğitim öncesinde 96x96 piksel boyutuna getirilerek modele verilir.
 
-🚀 Proje Hakkında
-Bu çalışmanın amacı, görüntü işleme ve derin öğrenme tekniklerini kullanarak bir yüz fotoğrafından sayısal bir yaş değeri (Regresyon) üretebilmektir. Model, ham pikselleri girdi olarak alır ve CNN katmanları üzerinden öznitelik çıkarımı yaparak sonucu tahmin eder.
+---
 
-Eğitim sürecinde hız ve performans dengesini sağlamak adına veri seti dinamik olarak yönetilmiş ve "Adam" optimizasyon algoritması kullanılmıştır.
+## 📂 Kullanılan Veri Seti
+Projede **UTKFace** veri seti kullanılmıştır. Bu veri seti 0-116 yaş aralığında, farklı ırk ve cinsiyetlerden binlerce yüz görüntüsü içerir.
 
-✨ Özellikler
-Özel CNN Mimarisi: Hazır ağlar (Transfer Learning) yerine, proje için özelleştirilmiş sıfırdan bir CNN katman yapısı.
+Veri setindeki dosya isimlendirme formatı şöyledir:
+`[yaş]_[cinsiyet]_[ırk]_[tarih].jpg`
 
-Regresyon Çıktısı: Yaş grupları (sınıflandırma) yerine, doğrudan yaşın sayısal değeri (regresyon) tahmin edilir.
+> **Örnek:** `25_1_0_20170110.jpg` -> Bu dosya isminden kişinin **25** yaşında olduğu otomatik olarak ayrıştırılır.
 
-Veri Yönetimi: ImageDatastore ve ArrayDatastore kullanılarak bellek dostu eğitim süreci.
+---
 
-Dinamik Ön İşleme: Görüntüler eğitim sırasında otomatik olarak 96x96 boyutuna getirilir ve normalizasyon uygulanır.
+## 🧠 Model Mimarisi
+Model, `dags` veya hazır ağlar (Transfer Learning) yerine, sıfırdan oluşturulmuş sıralı (sequential) bir yapıdır:
 
-📂 Veri Seti
-Projede UTKFace veri seti kullanılmıştır. Bu veri seti, 0'dan 116 yaşına kadar çeşitli insan yüzlerini içerir.
+1.  **Giriş Katmanı:** 96x96x3 (RGB Görüntü)
+2.  **Konvolüsyon Blokları (x4):**
+    * Derinleştikçe artan filtre sayıları: **32 -> 64 -> 128 -> 256**
+    * Her blokta: `Conv2d` -> `BatchNormalization` -> `ReLU` -> `MaxPooling` (Son blok hariç)
+3.  **Tam Bağlantılı (Fully Connected) Katmanlar:**
+    * 128 Nöronlu gizli katman + ReLU
+    * **Dropout Layer (%50):** Aşırı öğrenmeyi (overfitting) engellemek için.
+    * Çıkış Katmanı: 1 Nöron (Regresyon çıktısı).
+4.  **Kayıp Fonksiyonu:** Mean Squared Error (MSE).
 
-Format: [yaş]_[cinsiyet]_[ırk]_[tarih].jpg
+---
 
-Örnek Dosya: 25_1_0_20170110.jpg (25 yaşında)
+## 🛠 Gereksinimler
+Bu projeyi çalıştırmak için aşağıdaki yazılımlara ihtiyacınız vardır:
 
-Not: Kod içerisinde performans optimizasyonu için veri setinden rastgele 6000 adet görüntü seçilerek eğitim yapılmıştır.
+* **MATLAB** (R2021a veya üzeri önerilir)
+* **Deep Learning Toolbox**
+* **Computer Vision Toolbox** (Ön işleme fonksiyonları için)
 
-🏗️ Model Mimarisi
-Model, derinlemesine öznitelik çıkarımı yapan aşağıdaki katmanlardan oluşur:
+---
 
-Giriş Katmanı: 96x96x3 (RGB)
+## 💻 Kurulum ve Kullanım
 
-Konvolüsyon Blokları (x4):
+1.  **Projeyi İndirin:** Bu repoyu bilgisayarınıza klonlayın veya indirin.
+2.  **Veri Setini İndirin:** [UTKFace veri setini](https://susanqq.github.io/UTKFace/) indirin.
+3.  **Dosya Yolunu Ayarlayın:**
+    `main.m` dosyasını açın ve aşağıdaki satırı kendi veri seti klasörünüze göre güncelleyin:
+    ```matlab
+    dataFolder = "C:\Dosya\Yolunuz\UTKFace"; 
+    ```
+4.  **Çalıştırın:**
+    MATLAB editöründe `Run` butonuna basın veya komut satırına dosya adını yazın.
 
-Conv2D (32, 64, 128, 256 filtre)
+---
 
-Batch Normalization (Eğitimi kararlı hale getirmek için)
+## 📊 Sonuçlar
+Eğitim sonucunda model `GelistirilmisModel_128px.mat` olarak kaydedilir. Kodun sonunda test kümesinden rastgele bir resim seçilerek tahmin yapılır.
 
-ReLU (Aktivasyon fonksiyonu)
-
-Max Pooling (Boyut indirgeme - ilk 3 blokta)
-
-Tam Bağlantılı Katmanlar (Fully Connected):
-
-FC (128 Nöron) + ReLU + Dropout (%50 - Overfitting önlemek için)
-
-FC (1 Nöron - Çıkış)
-
-Regresyon Katmanı: MSE (Mean Squared Error) kaybı hesaplanır.
-
-💻 Kurulum ve Kullanım
-Gereksinimler
-MATLAB (R2021a veya daha yeni önerilir)
-
-Deep Learning Toolbox
-
-Adımlar
-Bu repoyu klonlayın veya indirin.
-
-UTKFace veri setini indirin ve bilgisayarınızda bir klasöre çıkarın.
-
-main.m (veya kod dosyanızın adı neyse) dosyasını açın.
-
-Aşağıdaki satırı kendi dosya yolunuza göre güncelleyin:
-
-Matlab
-
-dataFolder = "C:\Sizin\Dosya\Yolunuz\UTKFace";
-Kodu çalıştırın (Run).
-
-📊 Sonuçlar
-Eğitim 15 Epoch boyunca sürer. Eğitim sonunda model GelistirilmisModel_128px.mat olarak kaydedilir ve test setinden rastgele bir görüntü seçilerek tahmin sonucu ekrana yansıtılır.
-
-Örnek Çıktı:
-
-Gerçek: 25 | Tahmin: 23.4
+**Örnek Çıktı:**
+```text
+Veri hazırlığı tamamlandı. Eğitim başlıyor...
+...
+Eğitim bitti ve model kaydedildi!
+Gerçek: 34 | Tahmin: 31.2
