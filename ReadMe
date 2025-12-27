@@ -1,1 +1,89 @@
 
+🧠 MATLAB ile CNN Tabanlı Yaş Tahmini (Age Estimation)
+Bu proje, insan yüzü görüntülerini analiz ederek kişinin yaşını tahmin eden bir Konveksiyonel Sinir Ağı (CNN) modelidir. Proje, MATLAB Deep Learning Toolbox kullanılarak geliştirilmiştir ve UTKFace veri seti üzerinde eğitilmiştir.
+
+📋 İçindekiler
+Proje Hakkında
+
+Özellikler
+
+Veri Seti
+
+Model Mimarisi
+
+Kurulum ve Kullanım
+
+Sonuçlar
+
+🚀 Proje Hakkında
+Bu çalışmanın amacı, görüntü işleme ve derin öğrenme tekniklerini kullanarak bir yüz fotoğrafından sayısal bir yaş değeri (Regresyon) üretebilmektir. Model, ham pikselleri girdi olarak alır ve CNN katmanları üzerinden öznitelik çıkarımı yaparak sonucu tahmin eder.
+
+Eğitim sürecinde hız ve performans dengesini sağlamak adına veri seti dinamik olarak yönetilmiş ve "Adam" optimizasyon algoritması kullanılmıştır.
+
+✨ Özellikler
+Özel CNN Mimarisi: Hazır ağlar (Transfer Learning) yerine, proje için özelleştirilmiş sıfırdan bir CNN katman yapısı.
+
+Regresyon Çıktısı: Yaş grupları (sınıflandırma) yerine, doğrudan yaşın sayısal değeri (regresyon) tahmin edilir.
+
+Veri Yönetimi: ImageDatastore ve ArrayDatastore kullanılarak bellek dostu eğitim süreci.
+
+Dinamik Ön İşleme: Görüntüler eğitim sırasında otomatik olarak 96x96 boyutuna getirilir ve normalizasyon uygulanır.
+
+📂 Veri Seti
+Projede UTKFace veri seti kullanılmıştır. Bu veri seti, 0'dan 116 yaşına kadar çeşitli insan yüzlerini içerir.
+
+Format: [yaş]_[cinsiyet]_[ırk]_[tarih].jpg
+
+Örnek Dosya: 25_1_0_20170110.jpg (25 yaşında)
+
+Not: Kod içerisinde performans optimizasyonu için veri setinden rastgele 6000 adet görüntü seçilerek eğitim yapılmıştır.
+
+🏗️ Model Mimarisi
+Model, derinlemesine öznitelik çıkarımı yapan aşağıdaki katmanlardan oluşur:
+
+Giriş Katmanı: 96x96x3 (RGB)
+
+Konvolüsyon Blokları (x4):
+
+Conv2D (32, 64, 128, 256 filtre)
+
+Batch Normalization (Eğitimi kararlı hale getirmek için)
+
+ReLU (Aktivasyon fonksiyonu)
+
+Max Pooling (Boyut indirgeme - ilk 3 blokta)
+
+Tam Bağlantılı Katmanlar (Fully Connected):
+
+FC (128 Nöron) + ReLU + Dropout (%50 - Overfitting önlemek için)
+
+FC (1 Nöron - Çıkış)
+
+Regresyon Katmanı: MSE (Mean Squared Error) kaybı hesaplanır.
+
+💻 Kurulum ve Kullanım
+Gereksinimler
+MATLAB (R2021a veya daha yeni önerilir)
+
+Deep Learning Toolbox
+
+Adımlar
+Bu repoyu klonlayın veya indirin.
+
+UTKFace veri setini indirin ve bilgisayarınızda bir klasöre çıkarın.
+
+main.m (veya kod dosyanızın adı neyse) dosyasını açın.
+
+Aşağıdaki satırı kendi dosya yolunuza göre güncelleyin:
+
+Matlab
+
+dataFolder = "C:\Sizin\Dosya\Yolunuz\UTKFace";
+Kodu çalıştırın (Run).
+
+📊 Sonuçlar
+Eğitim 15 Epoch boyunca sürer. Eğitim sonunda model GelistirilmisModel_128px.mat olarak kaydedilir ve test setinden rastgele bir görüntü seçilerek tahmin sonucu ekrana yansıtılır.
+
+Örnek Çıktı:
+
+Gerçek: 25 | Tahmin: 23.4
