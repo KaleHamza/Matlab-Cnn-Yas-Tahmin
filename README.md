@@ -1,4 +1,4 @@
-# 🧒👵 Age Estimation with CNN (MATLAB)
+# Age Estimation with CNN (MATLAB)
 
 Bu proje, insan yüzü görüntülerini analiz ederek kişinin yaşını tahmin eden derin öğrenme tabanlı bir **Konvolüsyonel Sinir Ağı (CNN)** uygulamasıdır. **MATLAB Deep Learning Toolbox** kullanılarak geliştirilmiştir.
 
@@ -6,7 +6,7 @@ Sınıflandırma (Classification) yerine **Regresyon (Regression)** modeli kulla
 
 ---
 
-## 📋 İçindekiler
+##  İçindekiler
 - [Proje Özeti](#-proje-özeti)
 - [Kullanılan Veri Seti](#-kullanılan-veri-seti)
 - [Model Mimarisi](#-model-mimarisi)
@@ -16,7 +16,7 @@ Sınıflandırma (Classification) yerine **Regresyon (Regression)** modeli kulla
 
 ---
 
-## 🚀 Proje Özeti
+##  Proje Özeti
 Bu çalışmada, ham piksel verilerinden yaş tahmini yapmak amacıyla özelleştirilmiş bir CNN mimarisi tasarlanmıştır.
 
 * **Veri İşleme:** Büyük veri setlerini belleği yormadan işlemek için MATLAB'in `ImageDatastore` ve `ArrayDatastore` yapıları kullanılmıştır.
@@ -25,7 +25,7 @@ Bu çalışmada, ham piksel verilerinden yaş tahmini yapmak amacıyla özelleş
 
 ---
 
-## 📂 Kullanılan Veri Seti
+##  Kullanılan Veri Seti
 Projede **UTKFace** veri seti kullanılmıştır. Bu veri seti 0-116 yaş aralığında, farklı ırk ve cinsiyetlerden binlerce yüz görüntüsü içerir.
 
 Veri setindeki dosya isimlendirme formatı şöyledir:
@@ -35,7 +35,7 @@ Veri setindeki dosya isimlendirme formatı şöyledir:
 
 ---
 
-## 🧠 Model Mimarisi
+##  Model Mimarisi
 Model, `dags` veya hazır ağlar (Transfer Learning) yerine, sıfırdan oluşturulmuş sıralı (sequential) bir yapıdır:
 
 1.  **Giriş Katmanı:** 96x96x3 (RGB Görüntü)
@@ -50,7 +50,7 @@ Model, `dags` veya hazır ağlar (Transfer Learning) yerine, sıfırdan oluştur
 
 ---
 
-## 🛠 Gereksinimler
+##  Gereksinimler
 Bu projeyi çalıştırmak için aşağıdaki yazılımlara ihtiyacınız vardır:
 
 * **MATLAB** (R2021a veya üzeri önerilir)
@@ -59,7 +59,7 @@ Bu projeyi çalıştırmak için aşağıdaki yazılımlara ihtiyacınız vardı
 
 ---
 
-## 💻 Kurulum ve Kullanım
+##  Kurulum ve Kullanım
 
 1.  **Projeyi İndirin:** Bu repoyu bilgisayarınıza klonlayın veya indirin.
 2.  **Veri Setini İndirin:** [UTKFace veri setini](https://susanqq.github.io/UTKFace/) indirin.
@@ -73,7 +73,7 @@ Bu projeyi çalıştırmak için aşağıdaki yazılımlara ihtiyacınız vardı
 
 ---
 
-## 📊 Sonuçlar
+##  Sonuçlar
 Eğitim sonucunda model `GelistirilmisModel_128px.mat` olarak kaydedilir. Kodun sonunda test kümesinden rastgele bir resim seçilerek tahmin yapılır.
 
 **Örnek Çıktı:**
